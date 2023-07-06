@@ -1,7 +1,8 @@
-var express = require("express");
+const express = require("express");
 const session = require('express-session');
-var router = express.Router();
-var reservationRouter = require('./routes/reservation');
+const router = express.Router();
+
+const reservationController = require('./controller/reservationController');
 
 const  credential = {
     email : "admin@gmail.com",
@@ -53,7 +54,9 @@ router.get('/reservation', (req, res) => {
     }
 })
 
-router.use('/reservation', reservationRouter);
+//reservation routes for controller
+router.get('/reservation', reservationController.getreservation);
+router.post('/reservation', reservationController.postreservation);
 
 // route for logout
 router.get('/logout', (req ,res)=>{
