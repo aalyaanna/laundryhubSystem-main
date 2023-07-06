@@ -1,21 +1,10 @@
 const express = require("express");
-const session = require('express-session');
 const router = express.Router();
-
-const reservationController = require('./controller/reservationController');
 
 const  credential = {
     email : "admin@gmail.com",
     password : "admin123"
 }
-
-// Set up session middleware
-router.use(session({
-    secret: 'secret-key',
-    resave: true,
-    saveUninitialized: true
-  }));
-
 // login user
 router.post('/login', (req, res)=>{
     if(req.body.email == credential.email && req.body.password == credential.password){
@@ -53,10 +42,6 @@ router.get('/reservation', (req, res) => {
         res.send("Unauthorized User.")
     }
 })
-
-//reservation routes for controller
-router.get('/reservation', reservationController.getreservation);
-router.post('/reservation', reservationController.postreservation);
 
 // route for logout
 router.get('/logout', (req ,res)=>{
