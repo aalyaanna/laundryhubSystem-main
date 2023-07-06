@@ -30,13 +30,13 @@ PS. sa baba nito, diyan din gagawa ng reservation schema para sa db natin, like 
 ### Modify the database_url @ .env file, type the url of your database from your MongoDB account, type the password of your database in the password field, remove the <>, in my case it's,
 ```mongodb+srv://oseoleah:<password>@cluster0.534kjgp.mongodb.net/nandy```
 
-### Go back to the terminal and type,
+### Go to cmd and type,
 ```prisma db push```
 
 ### Then type,
 ```prisma generate client```
 
-### To start the application, type
+### To start the application, go back to the terminal and type
 ```npm start```
 
 ### Open your browser then type
