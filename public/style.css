@@ -82,10 +82,10 @@ form{
 
 /* welcome section*/
 .welcome-bg{
-	background-image: url(https://cdn.dribbble.com/users/519645/screenshots/10584749/media/979920acba09cfb55d7d98770fce2e93.gif);
-	background-size: 20%;
+	background-image: url(https://static.wixstatic.com/media/54fb4d_bda8afd97165479a9853213149a21b85~mv2.gif);
+	background-size: 45%;
 	background-repeat: no-repeat;
-	background-position: center;
+	background-position: right center;
 }
 @media only screen and (min-width: 768px) and (max-width: 991px) {
 	.card {

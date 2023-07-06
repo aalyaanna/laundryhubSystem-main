@@ -30,7 +30,7 @@
             </div>
             <form>
                 <div class="border border-dark p-2 mb-2 border-opacity-50 rounded p-3">
-                    <form>
+                    <form action="/submit" method="POST">
                         <div class="row mb-3 pt-3">
                           <label for="inputName" class="col-sm-2 col-form-label">Name</label>
                           <div class="col-sm-6">
@@ -42,7 +42,11 @@
                           <div class="col-sm-6">
                             <select id="inputServices" class="form-select">
                                 <option selected>Choose...</option>
-                                <option>...</option>
+                                <option>Normal Wash</option>
+                                <option>Power Wash</option>
+                                <option>Dry</option>
+                                <option>Fold</option>
+                                <option>Wash and Fold</option>
                               </select>
                           </div>
                         </div>
@@ -51,7 +55,8 @@
                             <div class="col-sm-6">
                               <select id="inputSize" class="form-select">
                                   <option selected>Choose...</option>
-                                  <option>...</option>
+                                  <option>8kg below</option>
+                                  <option>8kg to 10kg</option>
                                 </select>
                             </div>
                         </div>
@@ -70,7 +75,11 @@
                             <label for="inputProducts" class="form-label">Products</label>
                             <select id="inputState" class="form-select">
                                 <option selected>Choose...</option>
-                                <option>Airiel Detergent</option>
+                                <option>Airiel Sunrise Fresh Liquid Detergent</option>
+                                <option>Airiel Hygiene Pro Liquid Detergent</option>
+                                <option>Airiel Passion Liquid Detergent</option>
+                                <option>Breeze Power Machine Liquid Detergent (BLUE)</option>
+                                <option>Breeze Power Machine Liquid Detergent (PINK)</option>
                             </select>
                         </div>
                         <div class="col-md-2 ps-5">
@@ -78,17 +87,15 @@
                             <select id="inputState" class="form-select">
                               <option selected>Choose</option>
                               <option>1</option>
+                              <option>2</option>
+                              <option>3</option>
+                              <option>4</option>
+                              <option>5</option>
                             </select>
                         </div>
                         <div class="col-md-3 ps-5">
                             <label for="price" class="form-label">Price</label>
-                            <input type="text" class="form-control" id="inputEmail4">
-                        </div>
-
-                        <div class="col-md-12 ps-5 pb-3">
-                            <div class="section-header pb-2">
-                                <a>+ another product</a>
-                            </div>
+                            <input type="text" class="form-control" id="inputEmail4" disabled>
                         </div>
                         </div>
 
@@ -102,17 +109,13 @@
                         </div>
                         <div class="row g-3">
                             <div class="col-md-5 ps-5">
-                                <label for="inputPicking" class="form-label">Picking Type</label>
+                                <label for="inputPicking" class="form-label"></label>
                                 <select id="inputPicking" class="form-select">
                                     <option selected>Choose...</option>
-                                    <option>Airiel Detergent</option>
-                                </select>
-                            </div>
-                            <div class="col-md-5 ps-5">
-                                <label for="inputDelivery" class="form-label">Delivery Type</label>
-                                <select id="inputDelivery" class="form-select">
-                                  <option selected>Choose</option>
-                                  <option>1</option>
+                                    <option>Self service</option>
+                                    <option>Drop-off service</option>
+                                    <option>Pick up</option>
+                                    <option>Pick-up and Delivery</option>
                                 </select>
                             </div>
                             </div>
@@ -127,17 +130,13 @@
                         </div>
 
                         <div class="row g-3 pb-3">
-                        <div class="col-md-4 ps-5">
+                        <div class="col-md-5 ps-5">
                             <label for="Subtotal" class="form-label">Subtotal</label>
-                            <input type="text" class="form-control" id="inputEmail4">
+                            <input type="text" class="form-control" id="inputEmail4" disabled>
                         </div>
-                        <div class="col-md-3 ps-5">
-                            <label for="pickupfee" class="form-label">Pick-up fee</label>
-                            <input type="text" class="form-control" id="inputEmail4">
-                        </div>
-                        <div class="col-md-3 ps-5">
+                        <div class="col-md-5 ps-5">
                             <label for="delivery" class="form-label">Delivery Fee</label>
-                            <input type="text" class="form-control" id="inputEmail4">
+                            <input type="text" class="form-control" id="inputEmail4" disabled>
                         </div>
                         </div>
 
