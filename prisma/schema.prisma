@@ -11,17 +11,16 @@ datasource db {
 }
 
 model reservation { 
-
-      id String @id @default(auto()) @map("_id") @db.ObjectId 
-      name String?
-      services String?
-      size Int?
-      products String?
-      quantity String?
-      price Int?
-      delivery String?
-      subtotal Int?
-      deliveryfee Int?
-      createdAt DateTime @default(now()) 
-      updatedAt DateTime @default(now()) 
-  } 
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId 
+  name         String?
+  services     String?
+  size         String?
+  products     String?
+  quantity     String?
+  price        Float?
+  delivery     String?
+  subtotal     Float?
+  deliveryfee  Float?
+  // createdAt    DateTime @default(now()) 
+  // updatedAt    DateTime @default(now()) 
+}

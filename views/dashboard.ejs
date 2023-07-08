@@ -4,14 +4,20 @@
     <!-- NAVIGATION BAR, LAHAT NG LINKS -->
 	<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
 		<div class="container">
-			<a class="navbar-brand" href="/route/dashboard"><span class="text-secondary">NANDY's</span> HUB</a> <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-bs-target="#navbarSupportedContent" data-bs-toggle="collapse" type="button"><span class="navbar-toggler-icon"></span></button>
+			<a class="navbar-brand" href="/dashboard"><span class="text-secondary">NANCY's</span> HUB</a> <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-bs-target="#navbarSupportedContent" data-bs-toggle="collapse" type="button"><span class="navbar-toggler-icon"></span></button>
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+						<a class="nav-link" href="/charts">Charts</a>
+					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="/route/reservation">Reservation</a>
+						<a class="nav-link" href="/reservation">Reservation</a>
 					</li>
           <li class="nav-item">
-						<a class="nav-link" href="/route/logout">Logout</a>
+						<a class="nav-link" href="/home">Website</a>
+					</li>
+          <li class="nav-item">
+						<a class="nav-link" href="/logout">Logout</a>
 					</li>
 				</ul>
 			</div>
@@ -29,10 +35,9 @@
         </div>
     </section>
     
-    <!-- table para don sa users -->
-    <section class="services section-padding" id="services">
+    <section class="section-padding table-responsive" id="services">
         <div class="container">
-            <table class="table">
+            <table class="table" id="reserveTable">
                 <thead>
                   <tr>
                     <th scope="col">Name</th>
@@ -41,31 +46,69 @@
                     <th scope="col">Products</th>
                     <th scope="col">Quantity</th>
                     <th scope="col">Price</th>
-                    <th scope="col">Delivery type</th>
+                    <th scope="col">Delivery Type</th>
                     <th scope="col">Subtotal</th>
-                    <th scope="col">Delivery fee</th>
-                    <th scope="col">Time</th>
+                    <th scope="col">Delivery Fee</th>
+                    <th scope="col">Action</th>
                   </tr>
                 </thead>
                 <tbody>
-                <!-- dito imemention yung data -->
-                  <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                  </tr>
+                  <% allreservations.forEach((reserve) => { %>
+                    <tr>
+                      <td>
+                        <%= reserve.name %>
+                      </td>
+                      <td>
+                        <%= reserve.services %>
+                      </td>
+                      <td>
+                        <%= reserve.size %>
+                      </td>
+                      <td>
+                        <%= reserve.products %>
+                      </td>
+                      <td>
+                        <%= reserve.quantity %>
+                      </td>
+                      <td>
+                        <%= reserve.price %>
+                      </td>
+                      <td>
+                        <%= reserve.delivery %>
+                      </td>
+                      <td>
+                        <%= reserve.subtotal %>
+                      </td>
+                      <td>
+                        <%= reserve.deliveryfee %>
+                      </td>
+                      <!-- dito yung sinasabi ni liya na update kineso na button -->
+                      <form action="/reservation/delete" method="post">
+                      <td style="vertical-align: middle;">
+                          <input type="hidden" name="id" value="<%= reserve.id %>">
+                          <button type="submit" class="btn btn-dark text-white"><i class="bi bi-arrow-up-right-square"></i></button>
+                          <!-- <button type="submit" class="btn btn-dark btn-sm">Done</button> -->
+                      </td>
+                    </form>
+                    </tr>
+                  <% }) %>
                 </tbody>
               </table>
         </div>
     </section>
 </body>
+
+<script>
+  // Prevent form submission from redirecting
+  document.querySelectorAll('form').forEach((form) => {
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const confirmation = confirm('This action will make the reservation mark as done. Are you sure?');
+    if (confirmation) {
+      form.submit();
+      }
+    });
+  });
+</script>
 
 <%- include('footer') -%>
