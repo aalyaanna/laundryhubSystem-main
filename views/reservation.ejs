@@ -4,7 +4,7 @@
     <!-- NAVIGATION BAR, LAHAT NG LINKS -->
 	<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
 		<div class="container">
-			<a class="navbar-brand" href="/home"><span class="text-secondary">NANDY's</span> HUB</a> <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-bs-target="#navbarSupportedContent" data-bs-toggle="collapse" type="button"><span class="navbar-toggler-icon"></span></button>
+			<a class="navbar-brand" href="/home"><span style="color: #526D82;">NANDY's</span> HUB</a> <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-bs-target="#navbarSupportedContent" data-bs-toggle="collapse" type="button"><span class="navbar-toggler-icon"></span></button>
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
 					<li class="nav-item">
@@ -25,7 +25,7 @@
         <div class="container">
             <div class="col-md-12">
                 <div class="section-header pb-2">
-                    <h3><strong>Reservation Form</strong></h3>
+                    <h3 style="color: #526D82;"><strong>Reservation Form</strong></h3>
                 </div>
             </div>
                 <div class="border border-dark p-2 mb-2 border-opacity-50 rounded p-3">
@@ -35,6 +35,12 @@
                           <div class="col-sm-6">
                             <input type="text" class="form-control" id="name" name="name">
                           </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="datetime" class="col-sm-2 col-form-label">Date and Time</label>
+                            <div class="col-sm-6">
+                              <input type="datetime-local" class="form-control" id="datetime" name="datetime">
+                            </div>
                         </div>
                         <div class="row mb-3">
                           <label for="services" class="col-sm-2 col-form-label">Services</label>
@@ -109,14 +115,14 @@
                                 <h5><strong>Delivery Type</strong></h5>
                             </div>
                         </div>
-                        <div class="row g-3">
+                        <div class="row g-1">
                             <div class="col-md-5 ps-5">
                                 <label for="delivery" class="form-label"></label>
                                 <select id="delivery" class="form-select" name="delivery" onchange="calculatePrice()">
                                     <option disabled selected value>Choose...</option>
-                                    <option value="Self service">Self-Service</option>
-                                    <option value="Drop-off service">Drop-off Service</option>
-                                    <option value="Pick up">Pick up</option>
+                                    <option value="Self Service">Self-Service</option>
+                                    <option value="Drop-off Service">Drop-off Service</option>
+                                    <option value="Pick Up">Pick up</option>
                                     <option value="Pick-up and Delivery">Pick-up and Delivery</option>
                                 </select>
                             </div>
@@ -144,16 +150,96 @@
                         </div>
                         </div>
 
+                        <% if (qrCodeUrl) { %> <!-- Check if qrCodeUrl is not null -->
+                            <div class="row justify-content-center mt-4">
+                              <div class="col-md-6">
+                                <div class="border border-dark p-2 mb-2 border-opacity-50 rounded p-3">
+                                  <div class="text-center">
+                                    <img id="qrCode" src="<%= qrCodeUrl %>" alt="QR Code">
+                                  </div>
+                                  <div class="text-center mt-3">
+                                    <a href="#" onclick="downloadQRCode()" class="btn btn-primary">Download QR Code</a>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <% } %> <!-- End of QR code div -->  
+
+                    
                         <!--Submit button-->
                         <div class="text-center mx-auto mb-3 mt-3">
-                            <button type="submit" class="btn btn-dark text-white" value="submit">Continue</button>
+                            <button type="submit" class="btn btn-dark text-white" value="submit" style="background-color: #526D82;">Continue</button>
                         </div>
                     </form>
                 </div>
+        <!-- QR code modal -->
+      <div class="modal fade" id="qrCodeModal" tabindex="-1" aria-labelledby="qrCodeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="qrCodeModalLabel">QR Code</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center">
+              <img src="<%= qrCodeUrl || '' %>" alt="QR Code" id="qrCodeImage">
+            </div>
+            <div class="modal-footer">
+              <a href="<%= qrCodeUrl || '' %>" download="reservation_qr_code.png" class="btn btn-primary">Download QR Code</a>
+              <button type="button" class="btn btn-dark text-white" style="background-color: #526D82;" data-bs-dismiss="modal">Close</button>
+            </div>
+          </div>
         </div>
-    </section>
+      </div>
+    </div>
+  </section>
     
 <%- include('footer') -%>
+
+<script>
+    function downloadQRCode() {
+      // Get the QR code image element
+      var qrCodeImage = document.getElementById('qrCode');
+      
+      // Create a temporary anchor element to download the QR code
+      var link = document.createElement('a');
+      link.href = qrCodeImage.src;
+      link.download = 'qr-code.png';
+      
+      // Trigger the download
+      link.click();
+    }
+  </script>
+
+<script>
+    // Wait for the DOM to be fully loaded
+    document.addEventListener('DOMContentLoaded', () => {
+      const submitBtn = document.getElementById('submitBtn');
+      const qrCodeImage = document.getElementById('qrCodeImage');
+
+      // Attach click event listener to the submit button
+      submitBtn.addEventListener('click', async () => {
+        // Perform form submission using AJAX or fetch API
+        const formData = new FormData(document.querySelector('form'));
+        const response = await fetch('/reservation', {
+          method: 'POST',
+          body: formData
+        });
+
+        if (response.ok) {
+          const responseData = await response.json();
+
+          // Update the QR code image source
+          qrCodeImage.src = responseData.qrCodeUrl;
+
+          // Open the QR code modal
+          const qrCodeModal = new bootstrap.Modal(document.getElementById('qrCodeModal'));
+          qrCodeModal.show();
+        } else {
+          console.error('Reservation submission failed');
+        }
+      });
+    });
+  </script>
 
 <script>
     function calculatePrice() {
@@ -197,9 +283,9 @@
   
       // Define the delivery fees based on the delivery type
       var deliveryFees = {
-        "Self service": 0,
-        "Drop-off service": 40,
-        "Pick up": 0,
+        "Self Service": 0,
+        "Drop-off Service": 40,
+        "Pick Up": 0,
         "Pick-up and Delivery": 80,
       };
   

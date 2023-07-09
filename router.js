@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { PrismaClient } = require('@prisma/client');
+const QRCode = require('qrcode');
 
 const credential = {
   email: "admin@gmail.com",
@@ -48,6 +49,15 @@ async function getAllReservations() {
   }
 }
 
+// Route for charts
+router.get('/charts', (req, res) => {
+  if (req.session.user) {
+    res.render('charts');
+  } else {
+    res.send("Unauthorized User.");
+  }
+});
+
 // Route for home
 router.get('/home', (req, res) => {
   if (req.session.user) {
@@ -57,19 +67,15 @@ router.get('/home', (req, res) => {
   }
 });
 
-// Route for home
-router.get('/charts', (req, res) => {
-  if (req.session.user) {
-    res.render('charts');
-  } else {
-    res.send("Unauthorized User.");
-  }
-});
-
 // Route for reservation
-router.get('/reservation', (req, res) => {
+router.get('/reservation', async (req, res) => {
   if (req.session.user) {
-    res.render('reservation');
+    try {
+      res.render('reservation', { qrCodeUrl: null }); // Set qrCodeUrl to null initially
+    } catch (error) {
+      console.error(error);
+      res.status(500).send('Internal server error.');
+    }
   } else {
     res.send("Unauthorized User.");
   }
@@ -86,6 +92,7 @@ router.post('/reservation', async (req, res) => {
         products,
         quantity,
         delivery,
+        datetime,
       } = req.body;
 
       const price = parseFloat(req.body.price);
@@ -99,15 +106,19 @@ router.post('/reservation', async (req, res) => {
           size,
           products,
           quantity,
-          price: price || '0',
+          price: price || null,
           delivery,
-          subtotal: subtotal || '0',
-          deliveryfee: deliveryfee || '0',
+          subtotal: subtotal || null,
+          deliveryfee: deliveryfee || null,
+          datetime: new Date(datetime),
         },
       });
 
+      // Generate the QR code
+      const qrCodeData = JSON.stringify(req.body);
+      const qrCodeUrl = await QRCode.toDataURL(qrCodeData);
       console.log('Reservation created successfully!');
-      res.redirect('/dashboard');
+      res.render('reservation', { qrCodeUrl: qrCodeUrl, reservations: reserve });
     } catch (error) {
       console.error(error);
       res.status(500).send('Internal server error.');
@@ -124,7 +135,7 @@ router.post('/reservation/delete', async (req, res) => {
       const reservationId = req.body.id;
 
       // Delete the reservation based on the provided reservationId
-      await prisma.reservations.delete({
+      await prisma.reservation.delete({
         where: {
           id: reservationId,
         },

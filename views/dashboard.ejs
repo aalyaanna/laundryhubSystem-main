@@ -4,7 +4,7 @@
     <!-- NAVIGATION BAR, LAHAT NG LINKS -->
 	<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
 		<div class="container">
-			<a class="navbar-brand" href="/dashboard"><span class="text-secondary">NANCY's</span> HUB</a> <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-bs-target="#navbarSupportedContent" data-bs-toggle="collapse" type="button"><span class="navbar-toggler-icon"></span></button>
+			<a class="navbar-brand" href="/dashboard"><span style="color: #526D82;">NANCY's</span> HUB</a> <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-bs-target="#navbarSupportedContent" data-bs-toggle="collapse" type="button"><span class="navbar-toggler-icon"></span></button>
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
           <li class="nav-item">
@@ -28,31 +28,33 @@
         <div class="container">
             <div class="col-md-12">
                 <div class="section-header pb-2">
-                    <h4>Nandy Hub Laundry Dashboard</h4>
-                    <h6><%= locals.user ? user : "User" %></h6>
+                    <h2 style="color: #526D82;"><strong>Nandy's Laundry Hub Admin Dashboard</strong></h2>
+                    <h3><%= locals.user ? user : "User" %></h3>
                 </div>
             </div>
         </div>
     </section>
     
-    <section class="section-padding table-responsive" id="services">
-        <div class="container">
-            <table class="table" id="reserveTable">
-                <thead>
+    <section class="p-5">
+      <h4 class="text-center pb-3"><strong>Lists of Customer</strong></h4>
+        <div class="table-responsive">
+            <table class="table table-bordered" id="reserveTable">
+                <thead class="text-center">
                   <tr>
-                    <th scope="col">Name</th>
-                    <th scope="col">Services</th>
-                    <th scope="col">Size</th>
-                    <th scope="col">Products</th>
-                    <th scope="col">Quantity</th>
-                    <th scope="col">Price</th>
-                    <th scope="col">Delivery Type</th>
-                    <th scope="col">Subtotal</th>
-                    <th scope="col">Delivery Fee</th>
-                    <th scope="col">Action</th>
+                    <th scope="col" class="align-middle">Name</th>
+                    <th scope="col" class="align-middle">Services</th>
+                    <th scope="col" class="align-middle">Size</th>
+                    <th scope="col" class="align-middle">Products</th>
+                    <th scope="col" class="align-middle">Quantity</th>
+                    <th scope="col" class="align-middle">Price</th>
+                    <th scope="col" class="align-middle">Delivery Type</th>
+                    <th scope="col" class="align-middle">Subtotal</th>
+                    <th scope="col" class="align-middle">Delivery Fee</th>
+                    <th scope="col" class="align-middle">Date and Time</th>
+                    <th scope="col" class="align-middle">Action</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody class="table-group-divider">
                   <% allreservations.forEach((reserve) => { %>
                     <tr>
                       <td>
@@ -82,11 +84,18 @@
                       <td>
                         <%= reserve.deliveryfee %>
                       </td>
+                      <td>
+                        <% if (reserve.datetime) { %>
+                           <%= reserve.datetime.toLocaleString() %>
+                         <% } else { %>
+                           N/A
+                         <% } %>
+                       </td>
                       <!-- dito yung sinasabi ni liya na update kineso na button -->
                       <form action="/reservation/delete" method="post">
                       <td style="vertical-align: middle;">
                           <input type="hidden" name="id" value="<%= reserve.id %>">
-                          <button type="submit" class="btn btn-dark text-white"><i class="bi bi-arrow-up-right-square"></i></button>
+                          <button type="submit" class="btn btn-dark text-white" style="background-color: #526D82;"><i class="bi bi-check-square"></i></button>
                           <!-- <button type="submit" class="btn btn-dark btn-sm">Done</button> -->
                       </td>
                     </form>

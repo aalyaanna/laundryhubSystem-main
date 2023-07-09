@@ -21,6 +21,5 @@ model reservation {
   delivery     String?
   subtotal     Float?
   deliveryfee  Float?
-  // createdAt    DateTime @default(now()) 
-  // updatedAt    DateTime @default(now()) 
+  datetime     DateTime?
 }
